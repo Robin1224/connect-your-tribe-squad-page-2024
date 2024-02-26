@@ -1,6 +1,11 @@
 <%- include('partials/head') %>
 
-<h2>Students</h2>
+  <nav>
+    <a href="/d/">D</a>
+    <a href="/e/">E</a>
+    <a href="/f/">F</a>
+  </nav>
+</header>
 <ul>
   <% persons.forEach(person => { %>
     <li><a href="/detail/<%= person.id %>"><%= person.name %></a>, squad_id <%= person.squad_id %></li>
