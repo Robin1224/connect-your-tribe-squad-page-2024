@@ -17,17 +17,13 @@
 
       <div class="name">
         <h2><%= person.name %></h2>
-        <a href="/detail/<% person.id %>">Details</a>
+        <a href="/detail/<%= person.id %>">Details</a>
       </div>
 
-      <form method="POST" action="/details/<% person.id %>">
-        <% if (person.fmlikes) { %>
-          <span><%= person.fmlikes %> likes</span>
-        <% } else { %>
-          <span>0</span>
-        <% } %>
+      <form method="POST" action="/detail/<%= person.id %>/like">
+        <span><%= person.custom?.fmlikes ? person.custom.fmlikes : 0 %></span>
         <button type="submit" name="like">Like</button>
-        </form>
+      </form>
     </li>
   <% }) %>
 </ul>

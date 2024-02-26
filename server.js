@@ -26,6 +26,14 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", function (request, response) {
   // Haal alle personen uit de WHOIS API op
   fetchJson("https://fdnd.directus.app/items/person").then((apiData) => {
+    apiData.data.forEach((person) => {
+      try {
+        person.custom = JSON.parse(person.custom);
+      }
+      catch (error) {
+        person.custom = {};
+      }
+    });
     // apiData bevat gegevens van alle personen uit alle squads
     // Je zou dat hier kunnen filteren, sorteren, of zelfs aanpassen, voordat je het doorgeeft aan de view
 
@@ -45,12 +53,47 @@ app.get("/detail/:id", function (request, response) {
   // Gebruik de request parameter id en haal de juiste persoon uit de WHOIS API op
   fetchJson("https://fdnd.directus.app/items/person/" + request.params.id).then(
     (apiData) => {
+
       // Render detail.ejs uit de views map en geef de opgehaalde data mee als variable, genaamd person
       response.render("detail", {
         person: apiData.data,
         squads: squadData.data,
       });
-    },
+    }
+  );
+});
+
+// Maak een GET route voor een detailpagina met een request parameter id
+app.post("/detail/:id/like", function (request, response) {
+  // Gebruik de request parameter id en haal de juiste persoon uit de WHOIS API op
+  fetchJson("https://fdnd.directus.app/items/person/" + request.params.id).then(
+    (apiData) => {
+      try {
+        apiData.data.custom = JSON.parse(apiData.data.custom);
+        console.log(apiData.data);
+      } catch (error) {
+        apiData.data.custom = {};
+      }
+
+      if (apiData.data.custom.fmlikes) {
+        apiData.data.custom.fmlikes = apiData.data.custom.fmlikes + 1;
+        console.log(apiData.data.custom.fmlikes);
+      } else {
+        apiData.data.custom.fmlikes = 1;
+      }
+
+      fetchJson("https://fdnd.directus.app/items/person/" + request.params.id, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify({
+          custom: JSON.stringify(apiData.data.custom),
+        }),
+      }).then(() => {
+        response.redirect(303, "/");
+      });
+    }
   );
 });
 
