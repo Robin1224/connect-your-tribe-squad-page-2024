@@ -37,6 +37,12 @@ app.get("/", function (request, response) {
     // apiData bevat gegevens van alle personen uit alle squads
     // Je zou dat hier kunnen filteren, sorteren, of zelfs aanpassen, voordat je het doorgeeft aan de view
 
+    if (request.query.squad) {
+      console.log(request.query.squad);
+      apiData.data = apiData.data.filter((person) => person.squad_id == request.query.squad);
+
+    }
+
     // Render index.ejs uit de views map en geef de opgehaalde data mee als variabele, genaamd persons
     response.render("index", { persons: apiData.data, squads: squadData.data });
   });
@@ -63,21 +69,19 @@ app.get("/detail/:id", function (request, response) {
   );
 });
 
-// Maak een GET route voor een detailpagina met een request parameter id
+// Post route voor likes
 app.post("/detail/:id/like", function (request, response) {
   // Gebruik de request parameter id en haal de juiste persoon uit de WHOIS API op
   fetchJson("https://fdnd.directus.app/items/person/" + request.params.id).then(
     (apiData) => {
       try {
         apiData.data.custom = JSON.parse(apiData.data.custom);
-        console.log(apiData.data);
       } catch (error) {
         apiData.data.custom = {};
       }
 
       if (apiData.data.custom.fmlikes) {
         apiData.data.custom.fmlikes = apiData.data.custom.fmlikes + 1;
-        console.log(apiData.data.custom.fmlikes);
       } else {
         apiData.data.custom.fmlikes = 1;
       }

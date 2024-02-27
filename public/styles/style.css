@@ -2,22 +2,46 @@
   /* Likes width will always be the remainder of these two */
   --image-size: 20vw;
   --name-width: 50vw;
+
+  /* Colors */
+  --background: #FAF1E4;
+  --light: #CEDEBD;
+  --medium: #9EB384;
+  --dark: #435334;
 }
 
 body {
   font-family: "Lato", sans-serif;
   font-weight: 400;
   font-style: normal;
+  background-color: var(--background);
+  color: var(--dark);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 4rem;
+  /* border-bottom: 1px solid #000; */
+  height: 4rem;
+}
+
+nav > a {
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
 }
 
 h1 {
-  margin-left: 2rem;
+  margin: 0;
+  margin-left: 4rem;
   font-size: 2rem;
 }
 
 h2 {
   font-size: 1.4rem;
-  margin: 0;
+  margin: 0 0 0.5rem 0;
 }
 
 ul {
@@ -32,16 +56,35 @@ li {
   padding-bottom: 1rem;
   display: flex;
   width: 100vw;
-  border-top: 1px solid #000;
+  border-top: 1px solid var(--dark);
   align-items: center;
 }
 
 img {
   width: var(--image-size);
   height: var(--image-size);
+  object-fit: cover;
+  border: 1px solid var(--dark);
+  border-radius: 0.2rem;
 }
 
 div.name {
   padding: 0 1rem;
   width: var(--name-width);
+}
+
+a {
+  text-decoration: none;
+  color: var(--dark);
+  padding: 0.2rem 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 0.2rem;
+  transition: background-color 0.3s;
+  background-color: var(--light);
+}
+
+a:hover {
+  background-color: var(--medium);
+  border-bottom: 2px solid var(--dark);
+  transform: translateY(-2);
 }
