@@ -34,13 +34,11 @@ app.get("/", function (request, response) {
         person.custom = {};
       }
     });
+    
     // apiData bevat gegevens van alle personen uit alle squads
     // Je zou dat hier kunnen filteren, sorteren, of zelfs aanpassen, voordat je het doorgeeft aan de view
-
     if (request.query.squad) {
-      console.log(request.query.squad);
       apiData.data = apiData.data.filter((person) => person.squad_id == request.query.squad);
-
     }
 
     // Render index.ejs uit de views map en geef de opgehaalde data mee als variabele, genaamd persons
